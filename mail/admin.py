@@ -1,3 +1,10 @@
 from django.contrib import admin
 
-# Register your models here.
+from mail.models import Newsletter
+
+
+@admin.register(Newsletter)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'subject', 'body')
+    search_fields = ('subject', 'body')
+
