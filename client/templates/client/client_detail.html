@@ -8,7 +8,8 @@
 
         <hr class="col-3 col-md-2 mb-5">
 
-        <a type="button" href="#" class="btn btn-outline-danger">Удалить бедолагу</a>
+        <a type="button" href="{% url 'client:client_delete' object.pk %}" class="btn btn-outline-danger">Удалить
+            бедолагу</a>
         <a type="button" href="{% url 'client:client_edit' object.pk %}" class="btn btn-outline-warning">Редактировать
             бедолагу</a>
         <a type="button" href="{% url 'client:client_list' %}" class="btn btn-outline-primary">Вернуться к списку
