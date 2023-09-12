@@ -8,15 +8,15 @@
 
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h4 class="border-bottom pb-2 mb-0">Рассылки</h4>
-            <div class="d-flex text-body-secondary pt-3">
-                {% for object in object_list %}
+            {% for object in object_list %}
+                <div class="d-flex text-body-secondary pt-3">
                     <p class="pb-3 mb-0 lh-sm border-bottom">
                         <strong><a href="{% url 'mail:newsletter_view' object.pk %}"
                                    class="d-block text-gray-dark">{{ object }}</a></strong>
                         {{ object.body | truncatechars:134 }}
                     </p>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
     </main>
 {% endblock %}
