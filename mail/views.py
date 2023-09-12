@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 
 from mail.models import Newsletter
 
@@ -10,6 +10,10 @@ def home_page(request):
 
 
 class NewsletterListView(ListView):
+    model = Newsletter
+
+
+class NewsletterDetailView(DetailView):
     model = Newsletter
 
 

@@ -1,0 +1,14 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+    <main>
+        <h1 class="text-body-emphasis">{{ object }}</h1>
+        <p class="fs-5 col-md-12">{{ object.body }}</p>
+
+        <hr class="col-3 col-md-2 mb-5">
+
+        <a type="button" href="{% url 'mail:newsletter_list' %}" class="btn btn-outline-primary">Вернуться к списку
+            рассылок</a>
+
+    </main>
+{% endblock %}
