@@ -2,13 +2,17 @@
 
 {% block content %}
     <main>
+
+        <a type="button" href="{% url 'mail:newsletter_create' %}" class="btn btn-outline-primary">Создать новую
+            рассылку</a>
+
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h4 class="border-bottom pb-2 mb-0">Рассылки</h4>
             <div class="d-flex text-body-secondary pt-3">
                 {% for object in object_list %}
                     <p class="pb-3 mb-0 lh-sm border-bottom">
                         <strong><a href="#" class="d-block text-gray-dark">{{ object }}</a></strong>
-                        {{ object.body | truncatechars:100}}
+                        {{ object.body | truncatechars:100 }}
                     </p>
                 {% endfor %}
             </div>

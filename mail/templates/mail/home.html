@@ -4,9 +4,10 @@
     <main>
         <h1 class="text-body-emphasis">Сервис спам рассылок</h1>
         <p class="fs-5 col-md-8">Наш сервис предлагает Вам создавать, редактировать и совершать спам-рассылки.
-        Легко, быстро и просто</p>
+            Легко, быстро и просто</p>
 
-        <a type="button" href="#" class="btn btn-outline-primary">Создать новую рассылку</a>
+        <a type="button" href="{% url 'mail:newsletter_create' %}" class="btn btn-outline-primary">Создать новую
+            рассылку</a>
 
 
         <hr class="col-3 col-md-2 mb-5">
@@ -15,7 +16,7 @@
             <div class="col-md-6">
                 <h2 class="text-body-emphasis">Существующие рассылки</h2>
                 <p>Примеры наших рассылок:</p>
-                <h5 ><a href='{% url 'mail:newsletter_list' %}' class="fs-4">Наши рассылки</a></h5>
+                <h5><a href='{% url 'mail:newsletter_list' %}' class="fs-4">Наши рассылки</a></h5>
             </div>
 
             <div class="col-md-6">
