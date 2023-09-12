@@ -1,0 +1,17 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+    <main>
+        <h1 class="text-body-emphasis">{{ object.last_name }} {{ object.first_name }}</h1>
+        <h3 class="text-body-emphasis">{{ object.email }}</h3>
+        <p class="fs-5 col-md-12">{{ object.comment }}</p>
+
+        <hr class="col-3 col-md-2 mb-5">
+
+        <a type="button" href="#" class="btn btn-outline-danger">Удалить бедолагу</a>
+        <a type="button" href="#" class="btn btn-outline-warning">Редактировать бедолагу</a>
+        <a type="button" href="{% url 'client:client_list' %}" class="btn btn-outline-primary">Вернуться к списку
+            бедолаг</a>
+
+    </main>
+{% endblock %}

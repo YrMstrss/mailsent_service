@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 
 from client.models import Client
 
@@ -12,4 +12,8 @@ class ClientCreateView(CreateView):
 
 
 class ClientListView(ListView):
+    model = Client
+
+
+class ClientDetailView(DetailView):
     model = Client
