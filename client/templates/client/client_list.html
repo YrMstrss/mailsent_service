@@ -3,7 +3,7 @@
 {% block content %}
     <main>
 
-        <a type="button" href="#" class="btn btn-outline-primary">Добавить бедолагу</a>
+        <a type="button" href="{% url 'client:client_create' %}" class="btn btn-outline-primary">Добавить бедолагу</a>
 
         <div class="my-3 p-3 bg-body rounded shadow-sm">
             <h4 class="border-bottom pb-2 mb-0">Клиенты</h4>
@@ -11,7 +11,8 @@
                 <div class="d-flex text-body-secondary pt-3">
                     <p class="pb-3 mb-0 lh-sm border-bottom">
                         <strong><a href="#"
-                                   class="d-block text-gray-dark">{{ object.last_name }} {{ object.first_name }}</a></strong>
+                                   class="d-block text-gray-dark">{{ object.last_name }} {{ object.first_name }}
+                            ({{ object.email }})</a></strong>
                         {{ object.comment | truncatechars:134 }}
                     </p>
                 </div>
