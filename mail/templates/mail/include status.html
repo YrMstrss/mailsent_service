@@ -1,0 +1,19 @@
+{% if object.settings.status in 'CR' %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor"
+         class="bi bi-circle-fill" viewBox="0 0 10 10" style="color: yellow;">
+        <circle cx="5" cy="5" r="5"/>
+    </svg>
+    Создана
+{% elif object.settings.status in 'ST' %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor"
+         class="bi bi-circle-fill" viewBox="0 0 10 10" style="color: lime;">
+        <circle cx="5" cy="5" r="5"/>
+    </svg>
+    Запущена
+{% else %}
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" fill="currentColor"
+         class="bi bi-circle-fill" viewBox="0 0 10 10" style="color: orangered;">
+        <circle cx="5" cy="5" r="5"/>
+    </svg>
+    Завершена
+{% endif %}

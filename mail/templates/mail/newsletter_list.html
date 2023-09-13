@@ -13,7 +13,10 @@
                     <p class="pb-3 mb-0 lh-sm border-bottom">
                         <strong><a href="{% url 'mail:newsletter_view' object.pk %}"
                                    class="d-block text-gray-dark">{{ object }}</a></strong>
-                        {{ object.body | truncatechars:134 }}
+                        {{ object.body | truncatechars:130 }}
+                        <label class="d-block text-gray-dark">Статус:
+                            {% include 'mail/include status.html' %}
+                        </label>
                     </p>
                 </div>
             {% endfor %}
