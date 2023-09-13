@@ -35,6 +35,8 @@ class Newsletter(models.Model):
     subject = models.CharField(max_length=150, verbose_name='тема')
     body = models.TextField(verbose_name='содержание')
 
+    settings = models.ForeignKey(NewsletterSettings, on_delete=models.CASCADE, verbose_name='настройка рассылки')
+
     def __str__(self):
         return f'{self.subject}'
 
