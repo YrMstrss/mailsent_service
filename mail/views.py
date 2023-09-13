@@ -1,12 +1,21 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 
+from client.models import Client
 from mail.models import Newsletter
 
 
-def home_page(request):
-    return render(request, "mail/home.html")
+class home_page(TemplateView):
+    template_name = 'mail/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        newsletters = Newsletter.objects.all().count()
+        clients = Client.objects.all().count()
+        context['newsletters'] = newsletters
+        context['clients'] = clients
+        return context
 
 
 class NewsletterListView(ListView):

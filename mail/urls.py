@@ -7,7 +7,7 @@ from mail.views import NewsletterListView, NewsletterCreateView, NewsletterDetai
 app_name = MailConfig.name
 
 urlpatterns = [
-    path('', home_page, name='home'),
+    path('', home_page.as_view(), name='home'),
     path('newsletters/', NewsletterListView.as_view(), name='newsletter_list'),
     path('newsletters/create', NewsletterCreateView.as_view(), name='newsletter_create'),
     path('newsletters/<int:pk>', NewsletterDetailView.as_view(), name='newsletter_view'),
