@@ -24,7 +24,7 @@ class NewsletterSettings(models.Model):
     period = models.CharField(max_length=2, choices=PERIOD_CHOICES, verbose_name='периодичность')
 
     def __str__(self):
-        return f'{self.status}'
+        return f'{self.status} ({self.start_time} - {self.finish_time})'
 
     class Meta:
         verbose_name = 'настройка'
