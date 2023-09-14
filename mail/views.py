@@ -41,3 +41,9 @@ class NewsletterUpdateView(UpdateView):
 class NewsletterDeleteView(DeleteView):
     model = Newsletter
     success_url = reverse_lazy('mail:newsletter_list')
+
+
+class NewsletterSettingsCreateView(CreateView):
+    model = NewsletterSettings
+    fields = ('start_time', 'finish_time', 'period')
+    success_url = reverse_lazy('mail:newsletter_list')

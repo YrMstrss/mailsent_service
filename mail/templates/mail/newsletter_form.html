@@ -8,6 +8,8 @@
                     <form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
+                        <p>Не нашли нужных настроек рассылки? <a href="{% url 'mail:newsletter_settings_create' %}">
+                            Создайте новые</a></p>
                         <button type="submit" class="btn btn-success">
                             {% if object %}
                                 Сохранить
