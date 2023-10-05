@@ -7,6 +7,6 @@ def send_massage(subject, message, recipients):
         subject=subject,
         message=message,
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[recipients],
+        recipient_list=recipients,
         fail_silently=False
     )
