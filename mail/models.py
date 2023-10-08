@@ -1,5 +1,7 @@
 from django.db import models
 
+from client.models import Client
+
 NULLABLE = {'null': True, 'blank': True}
 
 
@@ -36,6 +38,8 @@ class Newsletter(models.Model):
     body = models.TextField(verbose_name='содержание')
 
     settings = models.ForeignKey(NewsletterSettings, on_delete=models.CASCADE, verbose_name='настройка рассылки')
+
+    clients = models.ManyToManyField(Client, verbose_name='клиент')
 
     def __str__(self):
         return f'{self.subject}'
