@@ -99,7 +99,7 @@
         <div class="col-md-3 mb-2 mb-md-0"><h3>Спам-сервис</h3></div>
 
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Домой</a></li>
+            <li><a href="/" class="nav-link px-2 link-secondary">Домой</a></li>
         </ul>
 
         <div class="col-md-3 text-end">
@@ -107,8 +107,8 @@
                 <a href="{% url 'users:logout' %}" type="button" class="btn btn-outline-danger me-2">Выйти</a>
             {% else %}
                 <a href="{% url 'users:login' %}" type="button" class="btn btn-outline-primary me-2">Войти</a>
+                <a href="{% url 'users:register' %}" type="button" class="btn btn-primary">Регистрация</a>
             {% endif %}
-            <a href="#" type="button" class="btn btn-primary">Регистрация</a>
         </div>
     </header>
 
