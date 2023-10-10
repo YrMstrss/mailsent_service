@@ -11,6 +11,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='email')
     username = None
 
+    token = models.CharField(max_length=200, verbose_name='токен верификации', **NULLABLE)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
