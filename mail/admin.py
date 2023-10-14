@@ -5,7 +5,7 @@ from mail.models import Newsletter, NewsletterSettings
 
 @admin.register(Newsletter)
 class NewsletterAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'subject', 'body', 'settings_id')
+    list_display = ('pk', 'subject', 'body', 'mail_settings')
     search_fields = ('subject', 'body')
 
 
