@@ -70,7 +70,7 @@ class ProfileView(UpdateView):
     model = User
     form_class = UserProfileChangeForm
     template_name = 'users/profile.html'
-    success_url = reverse_lazy('catalog:home')
+    success_url = reverse_lazy('mail:home')
 
     def get_object(self, queryset=None):
         return self.request.user
