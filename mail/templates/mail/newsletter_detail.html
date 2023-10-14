@@ -2,45 +2,60 @@
 
 {% block content %}
     <main>
-        <h1 class="text-body-emphasis">{{ object }}
-            {% if object.settings.period in 'HR' %}
-                (часовая)
-            {% elif object.settings.period in 'DL' %}
-                (ежедневная)
-            {% else %}
-                (еженедельная)
-            {% endif %}
-        </h1>
-        <p class="fs-5 col-md-12">{{ object.body }}</p>
+        <div class="row">
+            <div class="col-8">
+                <h1 class="text-body-emphasis">{{ object }}
+                    {% if object.settings.period in 'HR' %}
+                        (часовая)
+                    {% elif object.settings.period in 'DL' %}
+                        (ежедневная)
+                    {% else %}
+                        (еженедельная)
+                    {% endif %}
+                </h1>
+                <p class="fs-5 col-md-12">{{ object.body }}</p>
 
-        <hr class="col-3 col-md-2 mb-5">
+                <hr class="col-3 col-md-2 mb-5">
 
-        <p class="fs-5 col-md-12">Статус рассылки:
-            {% include 'mail/include status.html' %}
-        </p>
+                <p class="fs-5 col-md-12">Статус рассылки:
+                    {% include 'mail/include status.html' %}
+                </p>
 
-        <p class="fs-5 col-md-12">Время начала рассылки:
-            {% if object.settings.start_time %}
-                {{ object.settings.start_time }}
-            {% else %}
-                не указано
-            {% endif %}
-        </p>
+                <p class="fs-5 col-md-12">Время начала рассылки:
+                    {% if object.settings.start_time %}
+                        {{ object.settings.start_time }}
+                    {% else %}
+                        не указано
+                    {% endif %}
+                </p>
 
-        <p class="fs-5 col-md-12">Время окончания рассылки:
-            {% if object.settings.finish_time %}
-                {{ object.settings.finish_time }}
-            {% else %}
-                не указано
-            {% endif %}
-        </p>
+                <p class="fs-5 col-md-12">Время окончания рассылки:
+                    {% if object.settings.finish_time %}
+                        {{ object.settings.finish_time }}
+                    {% else %}
+                        не указано
+                    {% endif %}
+                </p>
 
-        <a type="button" href="{% url 'mail:newsletter_delete' object.pk %}" class="btn btn-outline-danger">Удалить
-            рассылку</a>
-        <a type="button" href="{% url 'mail:newsletter_update' object.pk %}" class="btn btn-outline-warning">Редактировать
-            рассылку</a>
-        <a type="button" href="{% url 'mail:newsletter_list' %}" class="btn btn-outline-primary">Вернуться к списку
-            рассылок</a>
+                <a type="button" href="{% url 'mail:newsletter_delete' object.pk %}" class="btn btn-outline-danger">Удалить
+                    рассылку</a>
+                <a type="button" href="{% url 'mail:newsletter_update' object.pk %}" class="btn btn-outline-warning">Редактировать
+                    рассылку</a>
+                <a type="button" href="{% url 'mail:newsletter_list' %}" class="btn btn-outline-primary">Вернуться к
+                    списку
+                    рассылок</a>
 
+            </div>
+
+            <div class="col-4">
+                <h4>Рассылка для бедолаг: </h4>
+                <ul class="list-group list-group-flush">
+                    {% for client in clients %}
+                        <li class="list-group-item">{{ client }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
     </main>
 {% endblock %}
