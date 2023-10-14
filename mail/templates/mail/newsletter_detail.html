@@ -37,7 +37,7 @@
                     {% endif %}
                 </p>
 
-                {% if user.creator %}
+                {% if object.creator %}
                     <a type="button" href="{% url 'mail:newsletter_delete' object.pk %}" class="btn btn-outline-danger">Удалить
                         рассылку</a>
                     <a type="button" href="{% url 'mail:newsletter_update' object.pk %}" class="btn btn-outline-warning">Редактировать
