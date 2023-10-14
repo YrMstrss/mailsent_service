@@ -36,6 +36,13 @@ class NewsletterCreateView(CreateView):
     fields = ('subject', 'body', 'mail_settings', 'clients')
     success_url = reverse_lazy('mail:newsletter_list')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.creator = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
+
 
 class NewsletterUpdateView(UpdateView):
     model = Newsletter
