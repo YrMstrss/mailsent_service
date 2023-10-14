@@ -33,13 +33,13 @@ class NewsletterDetailView(DetailView):
 
 class NewsletterCreateView(CreateView):
     model = Newsletter
-    fields = ('subject', 'body', 'settings', 'clients')
+    fields = ('subject', 'body', 'mail_settings', 'clients')
     success_url = reverse_lazy('mail:newsletter_list')
 
 
 class NewsletterUpdateView(UpdateView):
     model = Newsletter
-    fields = ('subject', 'body', 'settings', 'clients')
+    fields = ('subject', 'body', 'mail_settings', 'clients')
     success_url = reverse_lazy('mail:newsletter_list')
 
 
