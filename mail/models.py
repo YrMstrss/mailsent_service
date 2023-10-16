@@ -54,5 +54,9 @@ class Newsletter(models.Model):
         return f'{self.subject}'
 
     class Meta:
+
+        permissions = [
+            ('view_all', 'Can view all newsletters')
+        ]
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
