@@ -11,6 +11,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-floating">
+                            <p>{{ is_manager }}</p>
                             {% csrf_token %}
                             {{ form.as_p }}
                             <button type="submit" class="btn btn-success">Сохранить</button>

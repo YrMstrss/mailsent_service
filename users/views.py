@@ -79,3 +79,9 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.groups.filter(name='manager').exists():
+            context['is_manager'] = 'Вы являетесь менеджером'
+        return context
