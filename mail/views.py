@@ -23,6 +23,11 @@ class home_page(TemplateView):
 class NewsletterListView(LoginRequiredMixin, ListView):
     model = Newsletter
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = Newsletter.objects.filter(creator=self.request.user)
+        return context
+
 
 class NewsletterDetailView(LoginRequiredMixin, DetailView):
     model = Newsletter
