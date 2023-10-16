@@ -2,22 +2,28 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-6">
-            <div class="card">
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <p>Не нашли нужных настроек рассылки? <a href="{% url 'mail:newsletter_settings_create' %}">
-                            Создайте новые</a></p>
-                        <button type="submit" class="btn btn-success">
-                            {% if object %}
-                                Сохранить
-                            {% else %}
-                                Создать
-                            {% endif %}
-                        </button>
-                    </form>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <p>Не нашли нужных настроек рассылки? <a
+                                        href="{% url 'mail:newsletter_settings_create' %}">
+                                    Создайте новые</a></p>
+                                <button type="submit" class="btn btn-success">
+                                    {% if object %}
+                                        Сохранить
+                                    {% else %}
+                                        Создать
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
