@@ -22,7 +22,8 @@ class User(AbstractUser):
     class Meta:
 
         permissions = [
-            ('deactivate_user', 'Can block or unblock users')
+            ('deactivate_user', 'Can block or unblock users'),
+            ('view_user_list', 'Can view all user'),
         ]
 
         verbose_name = 'пользователь'

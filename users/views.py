@@ -1,13 +1,13 @@
 import secrets
 
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import CreateView, UpdateView, TemplateView, ListView
 
 from users.forms import UserRegisterForm, UserProfileChangeForm, AuthForm
 from users.models import User
@@ -85,3 +85,8 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         if self.request.user.groups.filter(name='manager').exists():
             context['is_manager'] = 'Вы являетесь менеджером'
         return context
+
+
+class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = User
+    permission_required = 'users.view_user_list_user'

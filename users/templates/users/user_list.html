@@ -1,0 +1,17 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+    <main>
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <h4 class="border-bottom pb-2 mb-0">Пользователи</h4>
+            {% for object in object_list %}
+                <div class="d-flex text-body-secondary pt-3">
+                    <p class="pb-3 mb-0 lh-sm border-bottom">
+                        {{ object }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

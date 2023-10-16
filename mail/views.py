@@ -17,6 +17,8 @@ class home_page(TemplateView):
         clients = Client.objects.all().count()
         context['newsletters'] = newsletters
         context['clients'] = clients
+        if self.request.user.groups.filter(name='manager').exists():
+            context['users'] = 'Пользователи'
         return context
 
 
