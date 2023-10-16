@@ -7,9 +7,12 @@
             <h4 class="border-bottom pb-2 mb-0">Пользователи</h4>
             {% for object in object_list %}
                 <div class="d-flex text-body-secondary pt-3">
-                    <p class="pb-3 mb-0 lh-sm border-bottom">
-                        {{ object }}
-                    </p>
+                    <p class="pb-3 mb-0 lh-sm border-bottom">{{ object }}</p>
+                    {% if object.is_active %}
+                        <a href="{% url 'users:toggle_activity' object.pk %}" class="btn btn-danger">Заблокировать</a>
+                    {% else %}
+                        <a href="{% url 'users:toggle_activity' object.pk %}" class="btn btn-primary">Разблокировать</a>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

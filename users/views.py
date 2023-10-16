@@ -4,8 +4,8 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.shortcuts import redirect
-from django.urls import reverse_lazy
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, UpdateView, TemplateView, ListView
 
@@ -90,3 +90,15 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = User
     permission_required = 'users.view_user_list_user'
+
+
+def toggle_activity(request, pk):
+    item = get_object_or_404(User, pk=pk)
+    if item.is_active:
+        item.is_active = False
+    else:
+        item.is_active = True
+
+    item.save()
+
+    return redirect(reverse('users:user_list'))

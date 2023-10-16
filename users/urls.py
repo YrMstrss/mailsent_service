@@ -3,7 +3,7 @@ from django.urls import path
 
 from users.apps import UsersConfig
 from users.views import RegisterView, ProfileView, EmailConfirmationSentView, UserConfirmEmailView, EmailConfirmView, \
-    Login, UserListView
+    Login, UserListView, toggle_activity
 
 app_name = UsersConfig.name
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('list/', UserListView.as_view(), name='user_list'),
+    path('activity/<int:pk>', toggle_activity, name='toggle_activity'),
 
     path('email-sent/', EmailConfirmationSentView.as_view(), name='email_sent'),
     path('confirm-email/<str:token>/', UserConfirmEmailView.as_view(), name='email_verified'),
