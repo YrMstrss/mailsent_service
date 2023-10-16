@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
@@ -19,11 +20,11 @@ class home_page(TemplateView):
         return context
 
 
-class NewsletterListView(ListView):
+class NewsletterListView(LoginRequiredMixin, ListView):
     model = Newsletter
 
 
-class NewsletterDetailView(DetailView):
+class NewsletterDetailView(LoginRequiredMixin, DetailView):
     model = Newsletter
 
     def get_context_data(self, **kwargs):
@@ -32,7 +33,7 @@ class NewsletterDetailView(DetailView):
         return context
 
 
-class NewsletterCreateView(CreateView):
+class NewsletterCreateView(LoginRequiredMixin, CreateView):
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
@@ -45,18 +46,18 @@ class NewsletterCreateView(CreateView):
         return super().form_valid(form)
 
 
-class NewsletterUpdateView(UpdateView):
+class NewsletterUpdateView(LoginRequiredMixin, UpdateView):
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
 
 
-class NewsletterDeleteView(DeleteView):
+class NewsletterDeleteView(LoginRequiredMixin, DeleteView):
     model = Newsletter
     success_url = reverse_lazy('mail:newsletter_list')
 
 
-class NewsletterSettingsCreateView(CreateView):
+class NewsletterSettingsCreateView(LoginRequiredMixin, CreateView):
     model = NewsletterSettings
     form_class = NewsletterSettingsForm
     success_url = reverse_lazy('mail:newsletter_list')
