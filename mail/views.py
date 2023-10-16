@@ -25,7 +25,10 @@ class NewsletterListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object_list'] = Newsletter.objects.filter(creator=self.request.user)
+        if self.request.user.groups.filter(name='manager').exists():
+            context['object_list'] = Newsletter.objects.all()
+        else:
+            context['object_list'] = Newsletter.objects.filter(creator=self.request.user)
         return context
 
 
