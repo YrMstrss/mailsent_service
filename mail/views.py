@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 
 from client.models import Client
+from mail.forms import NewsletterForm, NewsletterSettingsForm
 from mail.models import Newsletter, NewsletterSettings
 
 
@@ -33,7 +34,7 @@ class NewsletterDetailView(DetailView):
 
 class NewsletterCreateView(CreateView):
     model = Newsletter
-    fields = ('subject', 'body', 'mail_settings', 'clients')
+    form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
 
     def form_valid(self, form):
@@ -46,7 +47,7 @@ class NewsletterCreateView(CreateView):
 
 class NewsletterUpdateView(UpdateView):
     model = Newsletter
-    fields = ('subject', 'body', 'mail_settings', 'clients')
+    form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
 
 
@@ -57,5 +58,5 @@ class NewsletterDeleteView(DeleteView):
 
 class NewsletterSettingsCreateView(CreateView):
     model = NewsletterSettings
-    fields = ('start_time', 'finish_time', 'period')
+    form_class = NewsletterSettingsForm
     success_url = reverse_lazy('mail:newsletter_list')
