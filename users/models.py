@@ -20,5 +20,10 @@ class User(AbstractUser):
         return f'{self.last_name} {self.first_name} ({self.email})'
 
     class Meta:
+
+        permissions = [
+            ('deactivate_user', 'Can block or unblock users')
+        ]
+
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'

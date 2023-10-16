@@ -30,6 +30,11 @@ class NewsletterSettings(models.Model):
         return f'{self.status}, {self.period} ({self.start_time} - {self.finish_time})'
 
     class Meta:
+
+        permissions = [
+            ('set_newsletter_status', 'Can change newsletter status')
+        ]
+
         verbose_name = 'настройка'
         verbose_name_plural = 'настройки'
 
