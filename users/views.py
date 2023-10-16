@@ -1,16 +1,20 @@
 import secrets
 
 from django.conf import settings
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView, UpdateView, TemplateView
 
-from users.forms import UserRegisterForm, UserProfileChangeForm
-# Create your views here.
+from users.forms import UserRegisterForm, UserProfileChangeForm, AuthForm
 from users.models import User
+
+
+class Login(LoginView):
+
+    form_class = AuthForm
 
 
 class RegisterView(CreateView):
