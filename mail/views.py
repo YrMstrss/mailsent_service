@@ -17,7 +17,7 @@ class home_page(TemplateView):
         clients = Client.objects.all().count()
         context['newsletters'] = newsletters
         context['clients'] = clients
-        if self.request.user.groups.filter(name='manager').exists():
+        if self.request.user.has_perm('users.view_user_list_user'):
             context['users'] = 'Пользователи'
         return context
 
@@ -27,7 +27,7 @@ class NewsletterListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.user.groups.filter(name='manager').exists():
+        if self.request.user.has_perm('mail.view_all_newsletter'):
             context['object_list'] = Newsletter.objects.all()
         else:
             context['object_list'] = Newsletter.objects.filter(creator=self.request.user)
