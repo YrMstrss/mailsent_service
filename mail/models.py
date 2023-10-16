@@ -26,6 +26,12 @@ class NewsletterSettings(models.Model):
     finish_time = models.DateTimeField(verbose_name='время окончания рассылки', **NULLABLE)
     period = models.CharField(max_length=2, choices=PERIOD_CHOICES, verbose_name='периодичность')
 
+    clients = models.ManyToManyField(Client, verbose_name='клиент')
+
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='клиент', **NULLABLE)
+
+    message = models.ForeignKey('Newsletter', on_delete=models.CASCADE, verbose_name='сообщение рассылки',  **NULLABLE)
+
     def __str__(self):
         return f'{self.status}, {self.period} ({self.start_time} - {self.finish_time})'
 
