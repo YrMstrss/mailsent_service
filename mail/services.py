@@ -3,7 +3,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.mail import send_mail
 
-from mail.models import Newsletter
+from mail.models import Newsletter, NewsletterSettings
 
 
 def send_massage(subject, message, recipients):
@@ -17,13 +17,13 @@ def send_massage(subject, message, recipients):
 
 
 def start_newsletter(newsletter: Newsletter, clients: list):
-    if datetime.now() >= newsletter.settings.finish_time:
-        newsletter.settings.status = 'ST'
+    if datetime.now().strftime('%y-%m-%d %H:%M:%S') >=\
+            newsletter.mail_settings.finish_time.strftime('%y-%m-%d %H:%M:%S'):
+        newsletter_settings = NewsletterSettings.objects.filter(newsletter=newsletter)
+        newsletter_settings.status = 'ST'
     send_massage(newsletter.subject, newsletter.body, clients)
-    if datetime.now() >= newsletter.settings.finish_time:
-        newsletter.settings.status = 'FI'
+    if datetime.now().strftime('%y-%m-%d %H:%M:%S') >=\
+            newsletter.mail_settings.finish_time.strftime('%y-%m-%d %H:%M:%S'):
+        newsletter_settings = NewsletterSettings.objects.filter(newsletter=newsletter)
+        newsletter_settings.status = 'FI'
 
-
-def get_newsletter_list():
-    letters = list(Newsletter.objects.all())
-    return letters
