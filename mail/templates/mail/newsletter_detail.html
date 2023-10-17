@@ -5,9 +5,9 @@
         <div class="row">
             <div class="col-8">
                 <h1 class="text-body-emphasis">{{ object }}
-                    {% if object.settings.period in 'HR' %}
+                    {% if object.mail_settings.period in 'HR' %}
                         (часовая)
-                    {% elif object.settings.period in 'DL' %}
+                    {% elif object.mail_settings.period in 'DL' %}
                         (ежедневная)
                     {% else %}
                         (еженедельная)
@@ -22,16 +22,16 @@
                 </p>
 
                 <p class="fs-5 col-md-12">Время начала рассылки:
-                    {% if object.settings.start_time %}
-                        {{ object.settings.start_time }}
+                    {% if object.mail_settings.start_time %}
+                        {{ object.mail_settings.start_time }}
                     {% else %}
                         не указано
                     {% endif %}
                 </p>
 
                 <p class="fs-5 col-md-12">Время окончания рассылки:
-                    {% if object.settings.finish_time %}
-                        {{ object.settings.finish_time }}
+                    {% if object.mail_settings.finish_time %}
+                        {{ object.mail_settings.finish_time }}
                     {% else %}
                         не указано
                     {% endif %}
