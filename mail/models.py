@@ -8,6 +8,14 @@ NULLABLE = {'null': True, 'blank': True}
 
 class NewsletterSettings(models.Model):
 
+    """
+    Модель настроек рассылки.
+    Поля: 'status' - отвечает за статус рассылки. Определяется автоматически из 3ех значений приведенных в переменной
+    'STATUS_CHOICES'
+    'start_time' и 'finish_time' - время начала и окончания рассылки
+    'period' - поле для выбора периодичности рассылки. Выбирается из значений 'PERIOD_CHOICES'
+    """
+
     STATUS_CHOICES = [
         ('CR', 'Создана'),
         ('ST', 'Запущена'),
@@ -40,6 +48,16 @@ class NewsletterSettings(models.Model):
 
 
 class Newsletter(models.Model):
+
+    """
+    Модель рассылки
+    Поля: 'subject' - тема отправляемого сообщения
+    'body' - содержание отправляемого сообщения
+    'mail_settings' - подключенные настройки рассылки
+    'clients' - поле, отвечающее за клиентов, которым будет отправлено заданное сообщение
+    'creator' - пользователь, создавший и управляющий данной рассылкой
+    """
+
     subject = models.CharField(max_length=150, verbose_name='тема')
     body = models.TextField(verbose_name='содержание')
 
