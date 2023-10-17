@@ -2,14 +2,34 @@
 
 {% block content %}
     <main>
-        <h1 class="text-body-emphasis">Сервис спам рассылок</h1>
-        <p class="fs-5 col-md-8">Наш сервис предлагает Вам создавать, редактировать и совершать спам-рассылки.
-            Легко, быстро и просто</p>
+        <div class="row">
+            <div class="col-7">
+                <h1 class="text-body-emphasis">Сервис спам рассылок</h1>
+                <p class="fs-5 col-md-12">Наш сервис предлагает Вам создавать, редактировать и совершать спам-рассылки.
+                    Легко, быстро и просто</p>
 
-        {% if user.is_authenticated %}
-            <a type="button" href="{% url 'mail:newsletter_create' %}" class="btn btn-outline-primary">Создать новую
-                рассылку</a>
-        {% endif %}
+                {% if user.is_authenticated %}
+                    <a type="button" href="{% url 'mail:newsletter_create' %}" class="btn btn-outline-primary">Создать
+                        новую
+                        рассылку</a>
+                {% endif %}
+            </div>
+
+            <div class="col-5">
+                <h3>Статьи блога</h3>
+                <ul class="list-unstyled ps-0">
+                    <li>
+                        <a href="{% url 'blog:blog_detail' blog0.pk %}" class="fs-5 col-md-12">{{ blog0 }}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'blog:blog_detail' blog1.pk %}" class="fs-5 col-md-12">{{ blog1 }}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'blog:blog_detail' blog2.pk %}" class="fs-5 col-md-12">{{ blog2 }}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <hr class="col-3 col-md-2 mb-5">
 
@@ -33,6 +53,9 @@
                 <ul class="list-unstyled ps-0">
                     <li>
                         <p>Количество наших рассылок: {{ newsletters }}</p>
+                    </li>
+                    <li>
+                        <p>Число активных рассылок: {{ active_newsletters }}</p>
                     </li>
                     <li>
                         <p>Мы рассылаем спам уже {{ clients }} людям </p>
