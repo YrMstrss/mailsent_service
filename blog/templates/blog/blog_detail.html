@@ -1,0 +1,22 @@
+{% extends 'mail/base.html' %}
+
+{% block content %}
+    <main>
+        <div class="row">
+            <div class="col-8">
+                <h1 class="text-body-emphasis">{{ object }} </h1>
+                <p class="fs-5 col-md-12">{{ object.body }}</p>
+
+                <hr class="col-3 col-md-2 mb-5">
+
+                <p class="fs-5 col-md-12">Дата публикации: {{ object.created_at }}</p>
+
+                <a type="button" href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary">Вернуться к
+                    списку статей</a>
+            </div>
+            <div class="col-4">
+                <img src="/media/{{ object.picture }}" class="img-thumbnail" alt="">
+            </div>
+        </div>
+    </main>
+{% endblock %}
