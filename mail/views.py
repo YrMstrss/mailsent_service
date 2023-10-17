@@ -8,6 +8,7 @@ from blog.models import Blog
 from client.models import Client
 from mail.forms import NewsletterForm, NewsletterSettingsForm
 from mail.models import Newsletter, NewsletterSettings
+from mail.services import run_scheduler
 
 
 class home_page(TemplateView):
@@ -77,6 +78,8 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         self.object.creator = self.request.user
         self.object.save()
+
+        run_scheduler(self.object)
 
         return super().form_valid(form)
 
