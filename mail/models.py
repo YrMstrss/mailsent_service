@@ -78,3 +78,18 @@ class Newsletter(models.Model):
         ]
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
+
+
+class NewsletterLogs(models.Model):
+    last_try = models.DateTimeField(auto_now_add=True, verbose_name='время последней попытки')
+    server_answer = models.TextField(verbose_name='ответ сервера')
+    status = models.BooleanField(verbose_name='статус')
+
+    newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE, verbose_name='рассылка')
+
+    def __str__(self):
+        return f'{self.last_try}'
+
+    class Meta:
+        verbose_name = 'лог'
+        verbose_name_plural = 'логи'
