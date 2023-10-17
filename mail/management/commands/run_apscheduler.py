@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime, timedelta
 
+from client.models import Client
 from mail.models import Newsletter
-from mail.services import start_newsletter, get_newsletter_list
-
+from mail.services import start_newsletter
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -39,34 +39,27 @@ class Command(BaseCommand):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
-        scheduler.add_job(
-            get_newsletter_list,
-            trigger=CronTrigger(second='0'),
-            id="get_newsletter_list",  # The `id` assigned to each job MUST be unique
-            max_instances=1,
-            replace_existing=True,
-        )
-        logger.info(f"Added job '{id}'.")
+        for letter in Newsletter.objects.all():
 
-        for letter in get_newsletter_list():
+            clients = Client.objects.filter(newsletter=letter)
+            clients_email = [client.email for client in clients]
 
-            clients = list(letter.clients.all())
-
-            if letter.settings.start_time:
-                start_time = letter.settings.start_time
+            if letter.mail_settings.start_time:
+                start_time = letter.mail_settings.start_time
             else:
                 start_time = datetime.now()
 
-            if letter.settings.finish_time:
-                finish_time = letter.settings.finish_time
+            if letter.mail_settings.finish_time:
+                finish_time = letter.mail_settings.finish_time
             else:
                 finish_time = start_time + timedelta(days=365)
 
-            if letter.settings.period == 'HR':
-                trigger = CronTrigger(second=start_time.second,
-                                      minute=start_time.minute,
-                                      start_date=start_time, end_date=finish_time)
-            elif letter.settings.period == 'DL':
+            if letter.mail_settings.period == 'HR':
+                trigger = CronTrigger(second=start_time.second)
+                # trigger = CronTrigger(second=start_time.second,
+                #                       minute=start_time.minute,
+                #                       start_date=start_time, end_date=finish_time)
+            elif letter.mail_settings.period == 'DL':
                 trigger = CronTrigger(second=start_time.second,
                                       minute=start_time.minute,
                                       hour=start_time.hour,
@@ -80,9 +73,9 @@ class Command(BaseCommand):
 
             scheduler.add_job(
                 start_newsletter,
-                kwargs={'newsletter': letter, 'clients': clients},
+                kwargs={'newsletter': letter, 'clients': clients_email},
                 trigger=trigger,
-                id=f"start_newsletter {letter}",  # The `id` assigned to each job MUST be unique
+                id=f"start_newsletter {letter} ({letter.pk})",  # The `id` assigned to each job MUST be unique
                 max_instances=1,
                 replace_existing=True,
             )
