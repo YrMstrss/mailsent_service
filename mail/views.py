@@ -49,9 +49,16 @@ class home_page(TemplateView):
 
 
 class NewsletterListView(LoginRequiredMixin, ListView):
+    """
+    Контроллер для получения списка рассылок
+    """
     model = Newsletter
 
     def get_context_data(self, **kwargs):
+        """
+        Метод, получает данные только по тем рассылкам, которые созданы текущим пользователем или список всех рассылок,
+        если пользователь является менеджером
+        """
         context = super().get_context_data(**kwargs)
         if self.request.user.has_perm('mail.view_all_newsletter'):
             context['object_list'] = Newsletter.objects.all()
@@ -61,20 +68,33 @@ class NewsletterListView(LoginRequiredMixin, ListView):
 
 
 class NewsletterDetailView(LoginRequiredMixin, DetailView):
+    """
+    Контроллер отображения отдельной рассылки
+    """
     model = Newsletter
 
     def get_context_data(self, **kwargs):
+        """
+        Метод, получающий список клиентов, которым будет отправлена данная рассылка
+        """
         context = super().get_context_data(**kwargs)
         context['clients'] = Client.objects.filter(newsletter=self.object)
         return context
 
 
 class NewsletterCreateView(LoginRequiredMixin, CreateView):
+    """
+    Контроллер для создания рассылки
+    """
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
 
     def form_valid(self, form):
+        """
+        Метод, проверяющий валидность формы, записывающий создателя рассылки и вызывающий функцию запускающую
+        периодическую задачу
+        """
         self.object = form.save()
         self.object.creator = self.request.user
         self.object.save()
@@ -85,17 +105,26 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
 
 
 class NewsletterUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Контроллер для изменения существующей рассылки
+    """
     model = Newsletter
     form_class = NewsletterForm
     success_url = reverse_lazy('mail:newsletter_list')
 
 
 class NewsletterDeleteView(LoginRequiredMixin, DeleteView):
+    """
+    Контроллер для удаления существующей рассылки
+    """
     model = Newsletter
     success_url = reverse_lazy('mail:newsletter_list')
 
 
 class NewsletterSettingsCreateView(LoginRequiredMixin, CreateView):
+    """
+    Контроллер для создания новых настроек рассылки
+    """
     model = NewsletterSettings
     form_class = NewsletterSettingsForm
     success_url = reverse_lazy('mail:newsletter_list')
