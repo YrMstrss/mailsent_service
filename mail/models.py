@@ -30,8 +30,8 @@ class NewsletterSettings(models.Model):
     ]
 
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='CR', verbose_name='статус рассылки')
-    start_time = models.DateTimeField(verbose_name='время начала рассылки', **NULLABLE)
-    finish_time = models.DateTimeField(verbose_name='время окончания рассылки', **NULLABLE)
+    start_time = models.DateTimeField(verbose_name='время начала рассылки')
+    finish_time = models.DateTimeField(verbose_name='время окончания рассылки')
     period = models.CharField(max_length=2, choices=PERIOD_CHOICES, verbose_name='периодичность')
 
     def __str__(self):
