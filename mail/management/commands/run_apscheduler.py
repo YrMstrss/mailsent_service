@@ -1,7 +1,6 @@
 import logging
 
-from mail.models import Newsletter
-from mail.services import run_scheduler
+from mail.services import start_scheduler
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -37,9 +36,7 @@ class Command(BaseCommand):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
-        for letter in Newsletter.objects.all():
-
-            run_scheduler(letter)
+        start_scheduler(scheduler)
 
         scheduler.add_job(
             delete_old_job_executions,
