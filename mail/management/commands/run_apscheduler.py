@@ -36,7 +36,14 @@ class Command(BaseCommand):
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
-        start_scheduler(scheduler)
+        scheduler.add_job(
+            start_scheduler,
+            kwargs={'scheduler': scheduler},
+            trigger=CronTrigger(hour='*'),
+            id="updating",
+            max_instances=1,
+            replace_existing=True
+        )
 
         scheduler.add_job(
             delete_old_job_executions,
