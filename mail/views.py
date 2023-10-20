@@ -11,7 +11,7 @@ from django_apscheduler.jobstores import DjangoJobStore
 from blog.models import Blog
 from client.models import Client
 from mail.forms import NewsletterForm, NewsletterSettingsForm
-from mail.models import Newsletter, NewsletterSettings
+from mail.models import Newsletter, NewsletterSettings, NewsletterLogs
 from mail.services import start_scheduler
 
 scheduler = BackgroundScheduler()
@@ -105,6 +105,9 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         self.object.creator = self.request.user
         self.object.save()
+
+        log = NewsletterLogs.objects.create(server_answer='-', status='создана', newsletter=self.object)
+        log.save()
 
         start_scheduler(scheduler)
 

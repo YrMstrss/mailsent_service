@@ -25,10 +25,14 @@ def send_massage(newsletter: Newsletter):
                 recipient_list=[client.email],
                 fail_silently=False
             )
-            NewsletterLogs.objects.create(last_try=now(), server_answer='200', status=True, newsletter=newsletter)
+
+            log = NewsletterLogs.objects.create(server_answer='200', status='успешно отправлена',
+                                                newsletter=newsletter)
+            log.save()
         except SMTPException as error:
-            NewsletterLogs.objects.create(last_try=now(), server_answer=error.args, status=False,
-                                          newsletter=newsletter)
+            log = NewsletterLogs.objects.create(server_answer=error.args, status='ошибка отправки',
+                                                newsletter=newsletter)
+            log.save()
 
 
 def create_task(scheduler, newsletter: Newsletter):
@@ -69,18 +73,22 @@ def create_task(scheduler, newsletter: Newsletter):
 
 
 def check_time(newsletter: Newsletter) -> bool:
-
     if now() <= newsletter.mail_settings.finish_time:
         if now() >= newsletter.mail_settings.start_time:
             newsletter.mail_settings.status = 'ST'
             newsletter.mail_settings.save()
+
+            log = NewsletterLogs.objects.create(server_answer='-', status='запущена', newsletter=newsletter)
+            log.save()
             return True
         else:
             return False
     else:
         newsletter.mail_settings.status = 'FI'
         newsletter.mail_settings.save()
-        # NewsletterLogs.objects.create(last_try=now(), server_answer='', status=False, newsletter=newsletter)
+
+        log = NewsletterLogs.objects.create(server_answer='-', status='завершена', newsletter=newsletter)
+        log.save()
         return False
 
 
