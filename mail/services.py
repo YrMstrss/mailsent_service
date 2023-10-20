@@ -46,10 +46,9 @@ def create_task(scheduler, newsletter: Newsletter):
     finish_time = newsletter.mail_settings.finish_time
 
     if newsletter.mail_settings.period == 'HR':
-        trigger = CronTrigger(minute='*')
-        # trigger = CronTrigger(second=start_time.second,
-        #                       minute=start_time.minute,
-        #                       start_date=start_time, end_date=finish_time)
+        trigger = CronTrigger(second=start_time.second,
+                              minute=start_time.minute,
+                              start_date=start_time, end_date=finish_time)
     elif newsletter.mail_settings.period == 'DL':
         trigger = CronTrigger(second=start_time.second,
                               minute=start_time.minute,
