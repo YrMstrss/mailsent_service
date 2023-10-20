@@ -1,9 +1,10 @@
 import random
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-from django.conf import settings
+from apscheduler.schedulers.background import BackgroundScheduler
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 from django_apscheduler.jobstores import DjangoJobStore
 
@@ -11,7 +12,10 @@ from blog.models import Blog
 from client.models import Client
 from mail.forms import NewsletterForm, NewsletterSettingsForm
 from mail.models import Newsletter, NewsletterSettings
-from mail.services import create_task
+from mail.services import start_scheduler
+
+scheduler = BackgroundScheduler()
+scheduler.add_jobstore(DjangoJobStore(), "default")
 
 
 class home_page(TemplateView):
@@ -102,11 +106,7 @@ class NewsletterCreateView(LoginRequiredMixin, CreateView):
         self.object.creator = self.request.user
         self.object.save()
 
-        scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
-        scheduler.add_jobstore(DjangoJobStore(), "default")
-        scheduler.start()
-
-        create_task(scheduler, self.object)
+        start_scheduler(scheduler)
 
         return super().form_valid(form)
 

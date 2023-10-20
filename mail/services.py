@@ -1,13 +1,12 @@
 from smtplib import SMTPException
 
-from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.timezone import now
 
 from client.models import Client
-from mail.models import Newsletter, NewsletterSettings, NewsletterLogs
+from mail.models import Newsletter, NewsletterLogs
 
 
 def send_massage(newsletter: Newsletter):
@@ -32,15 +31,18 @@ def send_massage(newsletter: Newsletter):
                                           newsletter=newsletter)
 
 
-def create_task(scheduler: BlockingScheduler, newsletter: Newsletter):
+def create_task(scheduler, newsletter: Newsletter):
     """
     Функция, создающая новую задачу
     """
+    newsletter.job_id = f'start_newsletter {newsletter} ({newsletter.pk})'
+    newsletter.save()
+
     start_time = newsletter.mail_settings.start_time
     finish_time = newsletter.mail_settings.finish_time
 
     if newsletter.mail_settings.period == 'HR':
-        trigger = CronTrigger(second=start_time.second)
+        trigger = CronTrigger(minute='*')
         # trigger = CronTrigger(second=start_time.second,
         #                       minute=start_time.minute,
         #                       start_date=start_time, end_date=finish_time)
@@ -60,7 +62,7 @@ def create_task(scheduler: BlockingScheduler, newsletter: Newsletter):
         send_massage,
         kwargs={'newsletter': newsletter},
         trigger=trigger,
-        id=f"start_newsletter {newsletter} ({newsletter.pk})",
+        id=newsletter.job_id,
         max_instances=1,
         replace_existing=True,
     )
@@ -68,29 +70,33 @@ def create_task(scheduler: BlockingScheduler, newsletter: Newsletter):
 
 def check_time(newsletter: Newsletter) -> bool:
 
-    if now() >= newsletter.mail_settings.start_time:
-        if now() <= newsletter.mail_settings.finish_time:
+    if now() <= newsletter.mail_settings.finish_time:
+        if now() >= newsletter.mail_settings.start_time:
             newsletter.mail_settings.status = 'ST'
             newsletter.mail_settings.save()
             return True
         else:
-            newsletter.mail_settings.status = 'FI'
-            newsletter.mail_settings.save()
-            # NewsletterLogs.objects.create(last_try=now(), server_answer='', status=False, newsletter=newsletter)
             return False
     else:
+        newsletter.mail_settings.status = 'FI'
+        newsletter.mail_settings.save()
+        # NewsletterLogs.objects.create(last_try=now(), server_answer='', status=False, newsletter=newsletter)
         return False
 
 
 def start_scheduler(scheduler):
-    newsletters = Newsletter.objects.all()
+    newsletters = Newsletter.objects.filter(is_active=True)
 
     if newsletters:
         for newsletter in newsletters:
             if newsletter.mail_settings.status != 'FI':
-                job_id = newsletter.pk
+                job_id = f"start_newsletter {newsletter} ({newsletter.pk})"
                 if check_time(newsletter):
-                    create_task(scheduler, newsletter)
+                    if not scheduler.get_job(job_id):
+                        create_task(scheduler, newsletter)
                 else:
                     if scheduler.get_job(job_id):
                         scheduler.pause_job(job_id)
+
+        if scheduler.state == 0:
+            scheduler.start()
