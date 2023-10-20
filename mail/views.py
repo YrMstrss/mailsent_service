@@ -138,3 +138,15 @@ class NewsletterSettingsCreateView(LoginRequiredMixin, CreateView):
     model = NewsletterSettings
     form_class = NewsletterSettingsForm
     success_url = reverse_lazy('mail:newsletter_list')
+
+
+class NewsletterLogsListView(ListView):
+    """
+    Контроллер для вывода логов рассылки
+    """
+    model = NewsletterLogs
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(newsletter_id=self.kwargs.get('pk'))
+        queryset = queryset.order_by('-pk')
+        return queryset
