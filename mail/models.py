@@ -30,8 +30,8 @@ class NewsletterSettings(models.Model):
     ]
 
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default='CR', verbose_name='статус рассылки')
-    start_time = models.DateTimeField(verbose_name='время начала рассылки', **NULLABLE)
-    finish_time = models.DateTimeField(verbose_name='время окончания рассылки', **NULLABLE)
+    start_time = models.DateTimeField(verbose_name='время начала рассылки')
+    finish_time = models.DateTimeField(verbose_name='время окончания рассылки')
     period = models.CharField(max_length=2, choices=PERIOD_CHOICES, verbose_name='периодичность')
 
     def __str__(self):
@@ -68,6 +68,10 @@ class Newsletter(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE,
                                 verbose_name='создатель')
 
+    is_active = models.BooleanField(default=True, verbose_name='активность рассылки')
+
+    job_id = models.CharField(default='', verbose_name='id задачи')
+
     def __str__(self):
         return f'{self.subject}'
 
@@ -78,3 +82,18 @@ class Newsletter(models.Model):
         ]
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
+
+
+class NewsletterLogs(models.Model):
+    last_try = models.DateTimeField(auto_now_add=True, verbose_name='время последней попытки')
+    server_answer = models.TextField(verbose_name='ответ сервера', **NULLABLE)
+    status = models.CharField(max_length=50, verbose_name='статус')
+
+    newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE, verbose_name='рассылка')
+
+    def __str__(self):
+        return f'{self.last_try}'
+
+    class Meta:
+        verbose_name = 'лог'
+        verbose_name_plural = 'логи'

@@ -10,6 +10,7 @@
                 <hr class="col-3 col-md-2 mb-5">
 
                 <p class="fs-5 col-md-12">Дата публикации: {{ object.created_at }}</p>
+                <p class="fs-5 col-md-12">Просмотров: {{ object.view_counter }}</p>
 
                 <a type="button" href="{% url 'blog:blog_list' %}" class="btn btn-outline-primary">Вернуться к
                     списку статей</a>

@@ -5,9 +5,9 @@
         <div class="row">
             <div class="col-8">
                 <h1 class="text-body-emphasis">{{ object }}
-                    {% if object.settings.period in 'HR' %}
+                    {% if object.mail_settings.period in 'HR' %}
                         (часовая)
-                    {% elif object.settings.period in 'DL' %}
+                    {% elif object.mail_settings.period in 'DL' %}
                         (ежедневная)
                     {% else %}
                         (еженедельная)
@@ -22,16 +22,16 @@
                 </p>
 
                 <p class="fs-5 col-md-12">Время начала рассылки:
-                    {% if object.settings.start_time %}
-                        {{ object.settings.start_time }}
+                    {% if object.mail_settings.start_time %}
+                        {{ object.mail_settings.start_time }}
                     {% else %}
                         не указано
                     {% endif %}
                 </p>
 
                 <p class="fs-5 col-md-12">Время окончания рассылки:
-                    {% if object.settings.finish_time %}
-                        {{ object.settings.finish_time }}
+                    {% if object.mail_settings.finish_time %}
+                        {{ object.mail_settings.finish_time }}
                     {% else %}
                         не указано
                     {% endif %}
@@ -40,10 +40,17 @@
                 <a type="button" href="{% url 'mail:newsletter_delete' object.pk %}" class="btn btn-outline-danger">Удалить
                     рассылку</a>
                 <a type="button" href="{% url 'mail:newsletter_update' object.pk %}" class="btn btn-outline-warning">Редактировать
-                        рассылку</a>
+                    рассылку</a>
+                <a type="button" href="{% url 'mail:newsletter_logs_list' object.pk %}" class="btn btn-outline-warning">Просмотр
+                    логов
+                    рассылки</a>
                 <a type="button" href="{% url 'mail:newsletter_list' %}" class="btn btn-outline-primary">Вернуться к
-                    списку
-                    рассылок</a>
+                    списку рассылок</a>
+                {% if object.is_active %}
+                    <a href="{% url 'mail:toggle_newsletter_activity' object.pk %}" class="btn btn-danger">Приостановить</a>
+                {% else %}
+                    <a href="{% url 'mail:toggle_newsletter_activity' object.pk %}" class="btn btn-primary">Запустить</a>
+                {% endif %}
 
             </div>
 
