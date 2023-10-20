@@ -41,11 +41,16 @@
                     рассылку</a>
                 <a type="button" href="{% url 'mail:newsletter_update' object.pk %}" class="btn btn-outline-warning">Редактировать
                     рассылку</a>
-                <a type="button" href="{% url 'mail:newsletter_logs_list' object.pk %}" class="btn btn-outline-warning">Просмотр логов
+                <a type="button" href="{% url 'mail:newsletter_logs_list' object.pk %}" class="btn btn-outline-warning">Просмотр
+                    логов
                     рассылки</a>
                 <a type="button" href="{% url 'mail:newsletter_list' %}" class="btn btn-outline-primary">Вернуться к
-                    списку
-                    рассылок</a>
+                    списку рассылок</a>
+                {% if object.is_active %}
+                    <a href="{% url 'mail:toggle_newsletter_activity' object.pk %}" class="btn btn-danger">Приостановить</a>
+                {% else %}
+                    <a href="{% url 'mail:toggle_newsletter_activity' object.pk %}" class="btn btn-primary">Запустить</a>
+                {% endif %}
 
             </div>
 

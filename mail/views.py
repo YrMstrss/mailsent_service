@@ -3,7 +3,8 @@ import random
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, UpdateView, TemplateView
 from django_apscheduler.jobstores import DjangoJobStore
@@ -150,3 +151,15 @@ class NewsletterLogsListView(ListView):
         queryset = super().get_queryset().filter(newsletter_id=self.kwargs.get('pk'))
         queryset = queryset.order_by('-pk')
         return queryset
+
+
+def toggle_newsletter_activity(request, pk):
+    item = get_object_or_404(Newsletter, pk=pk)
+    if item.is_active:
+        item.is_active = False
+    else:
+        item.is_active = True
+
+    item.save()
+
+    return redirect(reverse('mail:newsletter_list'))
