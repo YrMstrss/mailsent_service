@@ -40,13 +40,14 @@ class home_page(TemplateView):
 
         clients = Client.objects.all().count()
 
+        context['blog_list'] = []
         if Blog.objects.all().count() > 3:
             blog_numbers = [random.randint(0, Blog.objects.all().count() - 1) for _ in range(3)]
             for i in range(3):
-                context[f'blog{i}'] = Blog.objects.all()[blog_numbers[i]]
+                context['blog_list'].append(Blog.objects.all()[blog_numbers[i]])
         else:
-            for i in range(Blog.objects.all().count()):
-                context[f'blog{i}'] = Blog.objects.all()[i]
+            for object in Blog.objects.all():
+                context['blog_list'].append(object)
 
         context['newsletters'] = newsletters
         context['active_newsletters'] = active_newsletters

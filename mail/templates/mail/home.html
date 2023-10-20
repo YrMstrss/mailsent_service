@@ -16,18 +16,14 @@
             </div>
 
             <div class="col-5">
-                {% if blog0 %}
+                {% if blog_list %}
                     <h3>Статьи блога</h3>
                     <ul class="list-unstyled ps-0">
-                        <li>
-                            <a href="{% url 'blog:blog_detail' blog0.pk %}" class="fs-5 col-md-12">{{ blog0 }}</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'blog:blog_detail' blog1.pk %}" class="fs-5 col-md-12">{{ blog1 }}</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'blog:blog_detail' blog2.pk %}" class="fs-5 col-md-12">{{ blog2 }}</a>
-                        </li>
+                        {% for blog in blog_list %}
+                            <li>
+                                <a href="{% url 'blog:blog_detail' blog.pk %}" class="fs-5 col-md-12">{{ blog }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 {% endif %}
             </div>
