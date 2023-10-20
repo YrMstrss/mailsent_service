@@ -2,24 +2,28 @@
 
 {% block content %}
     <div class="row">
+        <div class="col-3"></div>
         <div class="col-6">
-            <div class="modal-content rounded-4 shadow">
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <div class="modal-header border-bottom-0">
-                            <h1 class="modal-title fs-5">Удаление</h1>
-                        </div>
-                        <div class="modal-body py-0">
-                            <p>Вы уверены, что хотите удалить данную рассылку ({{ object }})?</p>
-                        </div>
-                        <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
-                            <button type="submit" class="btn btn-lg btn-primary">Удалить</button>
-                            <a href="{% url 'mail:newsletter_list' %}" type="button" class="btn btn-lg btn-secondary"
-                               data-bs-dismiss="modal">Отмена</a>
-                        </div>
-                    </form>
+            <div class="card">
+                <div class="modal-content rounded-4 shadow">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <div class="modal-header border-bottom-0">
+                                <h1 class="modal-title fs-5">Удаление</h1>
+                            </div>
+                            <div class="modal-body py-0">
+                                <p>Вы уверены, что хотите удалить данную рассылку ({{ object }})?</p>
+                            </div>
+                            <div class="modal-footer flex-column align-items-stretch w-100 gap-2 pb-3 border-top-0">
+                                <button type="submit" class="btn btn-lg btn-danger">Удалить</button>
+                                <a href="{% url 'mail:newsletter_list' %}" type="button"
+                                   class="btn btn-lg btn-secondary"
+                                   data-bs-dismiss="modal">Отмена</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
