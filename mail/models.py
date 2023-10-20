@@ -68,6 +68,10 @@ class Newsletter(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE,
                                 verbose_name='создатель')
 
+    is_active = models.BooleanField(default=True, verbose_name='активность рассылки')
+
+    job_id = models.CharField(default='', verbose_name='id задачи')
+
     def __str__(self):
         return f'{self.subject}'
 
