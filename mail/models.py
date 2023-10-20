@@ -86,8 +86,8 @@ class Newsletter(models.Model):
 
 class NewsletterLogs(models.Model):
     last_try = models.DateTimeField(auto_now_add=True, verbose_name='время последней попытки')
-    server_answer = models.TextField(verbose_name='ответ сервера')
-    status = models.BooleanField(verbose_name='статус')
+    server_answer = models.TextField(verbose_name='ответ сервера', **NULLABLE)
+    status = models.CharField(max_length=50, verbose_name='статус')
 
     newsletter = models.ForeignKey(Newsletter, on_delete=models.CASCADE, verbose_name='рассылка')
 
