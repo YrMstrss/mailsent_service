@@ -70,7 +70,7 @@ class Newsletter(models.Model):
 
     is_active = models.BooleanField(default=True, verbose_name='активность рассылки')
 
-    job_id = models.CharField(default='', verbose_name='id задачи')
+    job_id = models.CharField(max_length=50, default='', verbose_name='id задачи')
 
     def __str__(self):
         return f'{self.subject}'
